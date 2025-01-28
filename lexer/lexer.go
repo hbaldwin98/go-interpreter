@@ -58,9 +58,8 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Literal = l.readIdentifier()
 			tok.Type = token.LookupIdent(tok.Literal)
 			return tok
-		} else if isDigit(l.ch) {
-			tok.Type = token.INT
-			tok.Literal = l.readNumber()
+		} else if isDigit(l.ch) || isPeriod(l.ch) {
+			tok.Type, tok.Literal = l.readNumber()
 			return tok
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)
@@ -80,19 +79,36 @@ func (l *Lexer) readIdentifier() string {
 	return l.input[position:l.position]
 }
 
-func (l *Lexer) readNumber() string {
+// rules:
+// if we encounter a . assume float
+// if we already encountered a . reject
+// else int
+func (l *Lexer) readNumber() (token.TokenType, string) {
 	position := l.position
-	for isDigit(l.ch) {
+	var tokenType token.TokenType = token.INT
+	for isDigit(l.ch) || isPeriod(l.ch) {
+		if tokenType == token.FLOAT && isPeriod(l.ch) {
+			return token.ILLEGAL, l.input[position:l.position]
+		}
+
+		if isPeriod(l.ch) {
+			tokenType = token.FLOAT
+		}
+
 		l.readChar()
 	}
 
-	return l.input[position:l.position]
+	return tokenType, l.input[position:l.position]
 }
 
 func (l *Lexer) skipWhitespace() {
 	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
 		l.readChar()
 	}
+}
+
+func isPeriod(ch byte) bool {
+	return '.' == ch
 }
 
 func isDigit(ch byte) bool {
