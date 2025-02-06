@@ -71,6 +71,8 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerPrefix(token.TRUE, p.parseBoolean)
 	p.registerPrefix(token.FALSE, p.parseBoolean)
 
+	p.registerPrefix(token.LPAREN, p.parseGroupedExpression)
+
 	p.infixParseFns = make(map[token.TokenType]infixParseFn)
 	p.registerInfix(token.PLUS, p.parseInfixExpression)
 	p.registerInfix(token.MINUS, p.parseInfixExpression)
@@ -272,16 +274,28 @@ func (p *Parser) parseFloatLiteral() ast.Expression {
 func (p *Parser) parseBoolean() ast.Expression {
 	b := &ast.Boolean{Token: p.curToken}
 
-    value, err := strconv.ParseBool(p.curToken.Literal)
-    if err != nil {
-        msg := fmt.Sprintf("could not parse %s as boolean", p.curToken.Literal)
-        p.errors = append(p.errors, msg)
-        return nil
-    }
+	value, err := strconv.ParseBool(p.curToken.Literal)
+	if err != nil {
+		msg := fmt.Sprintf("could not parse %s as boolean", p.curToken.Literal)
+		p.errors = append(p.errors, msg)
+		return nil
+	}
 
-    b.Value = value
+	b.Value = value
 
-    return b
+	return b
+}
+
+func (p *Parser) parseGroupedExpression() ast.Expression {
+	p.nextToken()
+
+	exp := p.parseExpression(LOWEST)
+
+	if !p.expectPeek(token.RPAREN) {
+		return nil
+	}
+
+	return exp
 }
 
 func (p *Parser) parsePrefixExpression() ast.Expression {
