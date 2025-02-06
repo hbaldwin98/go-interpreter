@@ -26,8 +26,8 @@ a tool such as [Bison](https://www.gnu.org/software/bison/), however, doing it o
 probably would be better if we wanted to add more features to our language.
 
 *Precendence* is done through top down operator precendence (or Pratt parsing). 
-*Right Binding Power* UNDERSTAND
-*Left Binding Power* UNDERSTAND
+*Right Binding Power* The precedence of the operator at the current position and how it binds towards the right elements.* I think
+*Left Binding Power*  The same but in reverse ^
 
 ### Challenges
 
