@@ -25,7 +25,9 @@ Parsing is essentially a solved problem in computer science and, using a **Conte
 a tool such as [Bison](https://www.gnu.org/software/bison/), however, doing it ourselves like everything is an invaluable experience. Also, building our own
 probably would be better if we wanted to add more features to our language.
 
-Precendence  is done through top down operator precendence (or Pratt parsing). 
+*Precendence* is done through top down operator precendence (or Pratt parsing). 
+*Right Binding Power* UNDERSTAND
+*Left Binding Power* UNDERSTAND
 
 ### Challenges
 
