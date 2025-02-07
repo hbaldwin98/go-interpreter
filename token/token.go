@@ -41,13 +41,14 @@ const (
 	FALSE    = "FALSE"
 	IF       = "IF"
 	ELSE     = "ELSE"
+	ELSEIF   = "ELSEIF"
 	RETURN   = "RETURN"
 )
 
 type Token struct {
 	Type    TokenType
 	Literal string
-    Line int
+	Line    int
 }
 
 var keywords = map[string]TokenType{
@@ -57,6 +58,7 @@ var keywords = map[string]TokenType{
 	"false":  FALSE,
 	"if":     IF,
 	"else":   ELSE,
+	"elseif": ELSEIF,
 	"return": RETURN,
 }
 
