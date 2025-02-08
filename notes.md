@@ -7,6 +7,8 @@ represent valid or invalid inputs. We can then use these tokens to parse out an 
 
  - Add greater support for more common program language features
     - Floats (**DONE**) 
+    - else IF
+    - Ternaries (Terneries?)
     - Tuples (this may be a parsing problem?)
     - Postfix (increment) operations.
     - more...
@@ -32,6 +34,7 @@ probably would be better if we wanted to add more features to our language.
 ### Challenges
 
  - Write a formal proof of this language
+ - At elseif (else if?) support to the parser
 
 ## Statements, Expressions, Identifiers
 
